@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JB Opticals</title>
+    <link rel="icon" type="image/x-icon" href="favicon-16x16.png">
+    <link rel="stylesheet" href="styles.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        /* Add any extra styles */
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <div class="menu-icon" onclick="openMenu()">☰</div>
+        <div class="website-name">JB Opticals</div>
+
+        <!-- Profile Drop-down Menu -->
+        <div class="profile">
+            <img id="profilePic" class="profile-icon"
+                style="border-radius: 50%; width: 40px; height: 40px; cursor:pointer;" onclick="toggleDropdown()">
+            <ul class="dropdown-menu" id="profileDropdown">
+                <li onclick="window.location.href='settings.html'">Settings</li>
+                <li onclick="window.location.href='Login/Sign Up.html'">Login / Sign Up</li>
+                <li>Logout</li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Side Menu -->
+    <div id="sideMenu" class="side-menu">
+        <a href="javascript:void(0)" class="close-btn" onclick="closeMenu()">&times;</a>
+        <a href="index.html">Home</a>
+        <a href="product.html">Shop</a>
+        <a href="Q&A.html">Help Center</a>
+        <a href="contact.html">Contact</a>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Discover Your Style</h1>
+        <p>Find the perfect pair of spectacles</p>
+        <a href="product.html" class="btn-primary">Shop Now</a>
+    </section>
+
+    <!-- Featured Products Section -->
+    <section class="products">
+        <h2>Featured Products</h2>
+        <div class="product-list" id="product-list"></div>
+    </section>
+
+    <!-- "We Also Sell" Section -->
+    <section class="we-also-sell">
+        <h2>We Also Sell</h2>
+        <div class="round-icons">
+            <div class="icon-item" onclick="window.location.href='contact-lenses.html'">
+                <img src="contactlens.png" alt="Contact Lenses">
+            </div>
+            <div class="icon-item" onclick="window.location.href='sunglasses.html'">
+                <img src="sunglass.png" alt="Sunglasses">
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div>
+            <a href="https://www.instagram.com" class="social-icon" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.youtube.com" class="social-icon" target="_blank"><i class="fab fa-youtube"></i></a>
+            <p>All rights reserved &copy; 2024 JB Optician <a href="privacy policy.html">Privacy policy</a></li>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Bottom Navigation for Mobile -->
+    <nav class="navigation">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="product.html">Shop</a></li>
+            <li class="nav-item"><a class="nav-link" href="cart.html"><i class="fa fa-shopping-cart"></i></a></li>
+        </ul>
+    </nav>
+
+    <script>
+        // Dropdown toggle
+        function toggleDropdown() {
+            const dropdown = document.getElementById('profileDropdown');
+            dropdown.classList.toggle('active');
+        }
+
+        // Sample product data
+        const products = [
+            { id: 1, name: "Black Spectacles", price: 99, image: "https://picsum.photos/250/250?random=1" },
+            { id: 2, name: "Yellow Spectacles", price: 89, image: "https://picsum.photos/250/250?random=2" },
+            { id: 3, name: "Blue Spectacles", price: 120, image: "https://picsum.photos/250/250?random=3" },
+            { id: 4, name: "Red Spectacles", price: 115, image: "https://picsum.photos/250/250?random=4" }
+        ];
+
+        // Dynamically load products into the product list
+        const productList = document.getElementById("product-list");
+
+        products.forEach(product => {
+            const productItem = document.createElement("div");
+            productItem.className = "product-item";
+            productItem.innerHTML = `
+                <img src="${product.image}" alt="${product.name}">
+                <h3>${product.name}</h3>
+                <p>Price: $${product.price}</p>
+            `;
+            productItem.onclick = () => {
+                window.location.href = `product-details.html?id=${product.id}`;
+            };
+            productList.appendChild(productItem);
+        });
+
+        // Load profile photo from cookie
+        function getCookie(name) {
+            let cookieArr = document.cookie.split(";");
+            for (let i = 0; i < cookieArr.length; i++) {
+                let cookiePair = cookieArr[i].split("=");
+                if (name == cookiePair[0].trim()) {
+                    return decodeURIComponent(cookiePair[1]);
+                }
+            }
+            return null;
+        }
+
+        // Update the profile picture based on the cookie
+        function updateProfilePicture() {
+            const profilePic = document.getElementById('profilePic');
+            const storedPhoto = getCookie('profilePhoto');
+            if (storedPhoto) {
+                profilePic.src = storedPhoto; // Set the profile picture
+            } else {
+                profilePic.src = 'default-profile.png'; // Set a default image if no cookie found
+            }
+        }
+
+        // Call this function on page load
+        window.onload = updateProfilePicture;
+
+
+        // Open side menu
+        function openMenu() {
+            document.getElementById("sideMenu").style.left = "0";
+        }
+
+        // Close side menu
+        function closeMenu() {
+            document.getElementById("sideMenu").style.left = "-250px";
+        }
+    </script>
+</body>
+
+</html>
